@@ -22,8 +22,9 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("首頁", "Index", "Home")</li>
-                    <li>@Html.ActionLink("關於", "About", "Home")</li>
-                    <li>@Html.ActionLink("連絡人", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("從前從前", "Index", "OUAT")</li>
+                    @*<li>@Html.ActionLink("關於", "About", "Home")</li>
+                        <li>@Html.ActionLink("連絡人", "Contact", "Home")</li>*@
                 </ul>
             </div>
         </div>
@@ -38,6 +39,11 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.3.0.min.js"></script>
+    @*<script type="text/javascript" src="signalr/hubs"></script>*@
+    <script src="~/signalr/hubs"></script>
+    <script src='/signalr/js'></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

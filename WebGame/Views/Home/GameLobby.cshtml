@@ -1,0 +1,13 @@
+﻿@model  WebGame.Class.Player
+@{
+    ViewBag.Title = "GameLobby";
+}
+
+<h2>GameLobby</h2>
+
+@section scripts{
+    <script>
+        var player = $.connection.webGameHub;
+        player.server.getId();
+    </script>
+    }
