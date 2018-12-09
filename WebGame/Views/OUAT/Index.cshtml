@@ -1,10 +1,35 @@
-﻿
+﻿@model  WebGame.Models.Player
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Welcome To Once Upon A Time</h2>
+<h2>Welcome To Once Upon A Time , @Html.DisplayTextFor(model=>model.PlayerName)</h2>
+<div class="form-group row" >
+    <label class="control-label col-sm-2">在限人數</label>
+    <div class="col-sm-4">
+        <p id="onlinePlayerNum"></p>
+    </div>
+</div>
 
+@section scripts{
+    <script>
+        var player = $.connection.oUATHub;
+        //防止重複ConnectionId
+        player.client.duplicateConnectionId = async function () {
+            alert("重複Id,請再試一次");
+        }
+        player.client.getOnlinePlayerNumber = async function (num)
+        {
+            $('#onlinePlayerNum').text(num);
+        }
+        $.connection.hub.start().done(function () {
+            player.server.connectToHub(@Model.PlayerName);
+        });
+        $.connection.hub.disconnected(function () {
+            player.server.onDisconnect(@Model.PlayerName);
+        });
+    </script>
+    }
 
 
 

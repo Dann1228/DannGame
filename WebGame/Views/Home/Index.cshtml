@@ -36,10 +36,10 @@
   
     <script>
         $('#btnEnter').on('click', function () {
-            var player = $.connection.webGameHub;
-            $.connection.hub.start().done(function () {
-                player.server.connectToHub($('#txtPlayerName').val());
-            });
+            //var player = $.connection.webGameHub;
+            //$.connection.hub.start().done(function () {
+            //    player.server.connectToHub($('#txtPlayerName').val());
+            //});
             $('#hidePlayerName').val($('#txtPlayerName').val());
             $('#formPlayerData').submit();
         });
