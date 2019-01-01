@@ -183,23 +183,29 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BaseData\IBaseClient.cs" />
     <Compile Include="BaseData\IBaseHub.cs" />
+    <Compile Include="Models\GameCard.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OUATController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\PlayerRoom.cs" />
+    <Compile Include="Models\RoomList.cs" />
+    <Compile Include="Models\SelectList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignalR\OUAT\Impl\OUATHub.cs" />
     <Compile Include="SignalR\OUAT\IOUATClient.cs" />
     <Compile Include="SignalR\OUAT\IOUATHub.cs" />
     <Compile Include="SignalR\Startup\WebGameStartup.cs" />
+    <Compile Include="Utils\JavaScriptObjectParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\OUAT.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -224,7 +230,39 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\i18n\jsgrid-de.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\i18n\jsgrid-es.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\i18n\jsgrid-fr.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\i18n\jsgrid-he.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\i18n\jsgrid-ja.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\i18n\jsgrid-ka.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\i18n\jsgrid-pl.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\i18n\jsgrid-pt-br.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\i18n\jsgrid-pt.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\i18n\jsgrid-ru.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\i18n\jsgrid-tr.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\i18n\jsgrid-zh-cn.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\i18n\jsgrid-zh-tw.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\jsgrid-theme.css" />
+    <Content Include="Scripts\jsgrid-1.5.3\jsgrid-theme.min.css" />
+    <Content Include="Scripts\jsgrid-1.5.3\jsgrid.css" />
+    <Content Include="Scripts\jsgrid-1.5.3\jsgrid.js" />
+    <Content Include="Scripts\jsgrid-1.5.3\jsgrid.min.css" />
+    <Content Include="Scripts\jsgrid-1.5.3\jsgrid.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Pages\base.js" />
+    <Content Include="Scripts\Pages\base.pdfPreview.js" />
+    <Content Include="Scripts\Pages\base.sidebar.js" />
+    <Content Include="Scripts\Pages\cookiePageCondition.js" />
+    <Content Include="Scripts\Pages\custom_jsGrid.js" />
+    <Content Include="Scripts\Pages\Quotation\EditSolution.publicPayInfo.js" />
+    <Content Include="Scripts\Pages\Quotation\EditSolution.selfPayInfo.js" />
+    <Content Include="Scripts\Pages\Quotation\_ModalSelectedGroup.js" />
+    <Content Include="Scripts\Pages\Quotation\_ModalSelectExamItem.js" />
+    <Content Include="Scripts\Pages\signaturePad.js" />
+    <Content Include="Scripts\Pages\toggleOther.js" />
+    <Content Include="Scripts\Pages\twoSideSelection.js" />
+    <Content Include="Scripts\Pages\utils.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -241,6 +279,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\OUAT\Index.cshtml" />
     <Content Include="Views\Home\GameLobby.cshtml" />
+    <Content Include="Views\Shared\_PlayerRoom.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

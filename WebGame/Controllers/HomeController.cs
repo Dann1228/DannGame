@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using WebGame.Models;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Ajax.Utilities;
+using WebGame.SignalR;
 
 namespace WebGame.Controllers
 {
@@ -31,8 +32,8 @@ namespace WebGame.Controllers
 
         [HttpPost]
         public ActionResult GameLobby(Player model)
-        {
-            return View(model);
+        {            
+            return View(model);           
         }
     }
 }

@@ -1,12 +1,18 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Scripts/jsGridCSS")
+    @Scripts.Render("~/Scripts/jsGrid")
+    <!-- Page JS-->
+    <script src="~/Scripts/Pages/custom_jsGrid.js"></script>
+    <script src="~/Scripts/Pages/base.js"></script>
+    <script src="~/Scripts/Pages/utils.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
