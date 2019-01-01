@@ -36,7 +36,7 @@
                         var data = eval(response.Data.data);
                         if (data.length>0) {
                             $.each(data, function (value, index) {
-                                
+                                this.TotalLimit = this.PlayerList + "/" + this.TotalLimit;
                             });
                         }
                     } else {
@@ -71,22 +71,16 @@
             rowClick: function (item) {
             },
             fields: [
-                { name: "ProjectName", title: '專案名稱', type: "text", width: 60, align: "left" },
-                { name: "ExamineeName", title: '受檢者姓名', type: "text", width: 60, align: "left" },
-                { name: "IdNo", title: '身分證號', type: "text", width: 60, align: "left" },
-                { name: "OtherIdNo", title: '其他證號', type: "text", width: 60, align: "left" },
-                { name: "SumPublicUnitePrice", title: '公費統扣', type: "text", width: 60, align: "right" },
-                { name: "SumPublicCurrencyPrice", title: '公費現收', type: "text", width: 60, align: "right" },
-                { name: "SumSelfUnitePrice", title: '自費統扣', type: "text", width: 60, align: "right" },
-                { name: "SumSelfCurrencyPrice", title: '自費現收', type: "text", width: 40, align: "right" },
-                {
-                    name: "ExaminationId", title: '操作',
-                    itemTemplate: function (value, item) {
-                        var $result = $([]);
-                        return jsGridTemplate.customButton(value, item, ReviewData, '申請').attr('value', value);
-                    },
-                    width: 50, align: "center"
-                },
+                { name: "Name", title: '房間名稱', type: "text", width: 60, align: "center" },
+                { name: "TotalLimit", title: '房間人數', type: "text", width: 60, align: "right" },
+                //{
+                //    name: "ExaminationId", title: '操作',
+                //    itemTemplate: function (value, item) {
+                //        var $result = $([]);
+                //        return jsGridTemplate.customButton(value, item, ReviewData, '申請').attr('value', value);
+                //    },
+                //    width: 50, align: "center"
+                //},
             ],
             controller: {
                 loadData: function (filter) {
