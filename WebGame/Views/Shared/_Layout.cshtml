@@ -7,12 +7,20 @@
     <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.3.0.min.js"></script>
+    @*<script type="text/javascript" src="signalr/hubs"></script>*@
+    <script src="~/signalr/hubs"></script>
+    <script src='/signalr/js'></script>
     @Styles.Render("~/Scripts/jsGridCSS")
     @Scripts.Render("~/Scripts/jsGrid")
     <!-- Page JS-->
-    <script src="~/Scripts/Pages/custom_jsGrid.js"></script>
-    <script src="~/Scripts/Pages/base.js"></script>
-    <script src="~/Scripts/Pages/utils.js"></script>
+    @*<script src="~/Scripts/Pages/custom_jsGrid.js"></script>
+        <script src="~/Scripts/Pages/base.js"></script>
+        <script src="~/Scripts/Pages/utils.js"></script>*@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -42,14 +50,6 @@
             <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
         </footer>
     </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-    <script src="~/Scripts/jquery.signalR-2.3.0.min.js"></script>
-    @*<script type="text/javascript" src="signalr/hubs"></script>*@
-    <script src="~/signalr/hubs"></script>
-    <script src='/signalr/js'></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

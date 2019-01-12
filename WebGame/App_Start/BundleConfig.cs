@@ -26,11 +26,10 @@ namespace WebGame
                       "~/Content/bootstrap.css",
                       "~/Content/site.css", "~/Content/OUAT.css"));
             bundles.Add(new ScriptBundle("~/Scripts/jsGrid").Include(
-          "~/Scripts/jsgrid-1.5.3/jsgrid.js"));
+          "~/Scripts/jsgrid-1.5.3/jsgrid.min.js"));
             bundles.Add(new StyleBundle("~/Scripts/jsGridCSS").Include(
                       "~/Scripts/jsgrid-1.5.3/jsgrid.min.css",
                       "~/Scripts/jsgrid-1.5.3/jsgrid-theme.min.css"));
-
         }
     }
 }
