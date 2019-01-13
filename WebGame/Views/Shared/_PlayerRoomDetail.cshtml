@@ -1,0 +1,87 @@
+﻿@model  WebGame.Models.Player
+<div class="modal fade" id="modal_divPlayerRoomDetail">
+    <div class="modal-dialog modal-xl" style="width:80%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Player List</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="control-label col-sm-3">房間名稱 :</label>
+                    <label class="control-label col-sm-4" id="modal_lbRoomName"></label>
+                    <label class="control-label col-sm-3">房間數量 :</label>
+                    <label class="control-label col-sm-2" id="modal_lbTotalLimit"></label>
+                </div>
+                <div class="form-group row">
+                    <div id="jsgrid_PlayerList"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="modal_btnEnterRoom" type="button" class="btn btn-success pull-right">進入</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#modal_btnEnterRoom').on("click", function () {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("EnterRoom", Model.ControllerName)',
+                data: {
+                    PlayerName: @Model.PlayerName,
+                    ControllerName : @Model.ControllerName,
+                },
+            }).done(function () {
+                $('#modal_divPlayerRoomDetail').modal('hide');
+            });
+        });
+    });
+
+    $('#jsgrid_PlayerList').jsGrid({
+        width: "100%",
+        autoload: false,
+        paging: false,
+        pageLoading: false,
+        data:[],
+        rowClick: function (item) {
+        },
+        fields: [
+            { name: "PlayerName", title: '玩家名稱', type: "text", width: 60, align: "center" },
+            //{ name: "TotalLimit_Str", title: '房間人數', type: "text", width: 40, align: "right" },
+            //{
+            //    name: "Name", title: '進入房間',
+            //    itemTemplate: function (value, item) {
+            //        var $result = $([]);
+            //        return jsGridTemplate.customButton(value, item, null, '進入').attr('value', value);
+            //    },
+            //    width: 50, align: "center"
+            //},
+        ],
+        controller: {
+            loadData: function (filter) {
+                var d = $.Deferred();
+                var rtn = $.ajax({
+                    type:'POST',
+                    url: '@Url.Action("PlayerListOfRoom", "OUAT")',
+                    data: {
+                        //Pager: {
+                        //    CurrentPageNumber: filter.pageIndex - 1,
+                        //    PageSize: filter.pageSize,
+                        //},
+                        roomName: $('#modal_lbRoomName').text(),
+                    },
+                }).done(function (response) {
+                    var data = eval(response.data);
+                    //$('#jsgrid_PlayerList').jsGrid('option', 'data', data);
+                    $('#jsgrid_PlayerList').jsGrid("option", "data", data);
+                    //d.resolve({
+                    //    data: eval(response.data),
+                    //    itemsCount: response.itemsCount,
+                    //});
+                    });
+                //return d.promise();
+            }
+        }
+    });
+</script>

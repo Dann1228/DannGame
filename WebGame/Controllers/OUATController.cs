@@ -5,12 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using WebGame.Models;
 using WebGame.SignalR;
+using WebLib.Utils;
 
 namespace WebGame.Controllers
 {
     public class OUATController : Controller
     {
-        // GET: OUAT
         List<GameCard> testList = new List<GameCard>()
         {
             new GameCard{Id=1,No="t01", Text="t01T"},
@@ -19,8 +19,23 @@ namespace WebGame.Controllers
         };
         public ActionResult Index(Player model)
         {
+            model.ControllerName = ControllerContext.RouteData.Values["controller"].ToString();            
             return View(model);
         }
+        [HttpPost]
+        public JsonResult PlayerListOfRoom(string roomName)
+        {
+            List<Player> players = new List<Player>();
+            var query = OUATHub.roomList.Find(x => string.Equals(x.Name, roomName));
+            if (query != null)
+            {
+                players = query.PlayerList;
+            }
+            return new JsonResult { Data = new { data = JavaScriptObjectParser.Parse(players) } };
+        }
+        public void EnterRoom(Player player)
+        {
 
+        }
     }
 }

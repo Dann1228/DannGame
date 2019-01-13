@@ -250,6 +250,19 @@
     <Content Include="Scripts\jsgrid-1.5.3\jsgrid.min.css" />
     <Content Include="Scripts\jsgrid-1.5.3\jsgrid.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Pages\base.js" />
+    <Content Include="Scripts\Pages\base.pdfPreview.js" />
+    <Content Include="Scripts\Pages\base.sidebar.js" />
+    <Content Include="Scripts\Pages\cookiePageCondition.js" />
+    <Content Include="Scripts\Pages\custom_jsGrid.js" />
+    <Content Include="Scripts\Pages\Quotation\EditSolution.publicPayInfo.js" />
+    <Content Include="Scripts\Pages\Quotation\EditSolution.selfPayInfo.js" />
+    <Content Include="Scripts\Pages\Quotation\_ModalSelectedGroup.js" />
+    <Content Include="Scripts\Pages\Quotation\_ModalSelectExamItem.js" />
+    <Content Include="Scripts\Pages\signaturePad.js" />
+    <Content Include="Scripts\Pages\toggleOther.js" />
+    <Content Include="Scripts\Pages\twoSideSelection.js" />
+    <Content Include="Scripts\Pages\utils.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -266,7 +279,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\OUAT\Index.cshtml" />
     <Content Include="Views\Home\GameLobby.cshtml" />
-    <Content Include="Views\Shared\_PlayerRoom.cshtml" />
+    <Content Include="Views\Shared\_PlayerRoomDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

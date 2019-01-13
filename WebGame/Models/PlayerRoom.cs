@@ -10,6 +10,7 @@ namespace WebGame.Models
         public int Id { get; set; }
         public string Name { get; set; }   
         public int TotalLimit { get; set; }
+        public int TotalLimit_Str { get; set; }
         public List<Player> PlayerList { get; set; }
     }
 }

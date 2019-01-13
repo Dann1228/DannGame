@@ -17,22 +17,30 @@ namespace WebGame.SignalR
     {
         public static List<Player> playerList = new List<Player>();
         public static RoomList<PlayerRoom> roomList = new RoomList<PlayerRoom>();
+
         public override Task OnDisconnected(bool stopCalled)
         {
-            int index = playerList.FindIndex(x => x.ConnectionId == Context.ConnectionId);
+            int index = playerList.FindIndex(x => x.ConnectionId == Context.ConnectionId);           
             if (index != -1)
             {
+                Player disconnectPlayer = playerList[index];
                 playerList.RemoveAt(playerList.FindIndex(x => x.ConnectionId == Context.ConnectionId));
+                if(roomList.PlayerOnDisconnect(disconnectPlayer))
+                {              
+                    this.CurrentRoomList();
+                }
                 GetOnlinePlayerNumber();
             }
+            
             return base.OnDisconnected(stopCalled);
         }
         public void GetOnlinePlayerNumber()
         {
-            Clients.Client(Context.ConnectionId).getOnlinePlayerNumber(playerList.Count);
-            playerList.ForEach(x => {
-                Clients.AllExcept(Context.ConnectionId).getOnlinePlayerNumber(playerList.Count);
-            });
+            Clients.All.getOnlinePlayerNumber(playerList.Count);
+            //Clients.Client(Context.ConnectionId).getOnlinePlayerNumber(playerList.Count);
+            //playerList.ForEach(x => {
+            //    Clients.AllExcept(Context.ConnectionId).getOnlinePlayerNumber(playerList.Count);
+            //});
         }
         public void ConnectToHub(string playerName)
         {
@@ -54,24 +62,24 @@ namespace WebGame.SignalR
                Clients.Client(Context.ConnectionId).duplicateConnectionId();
             }
         }
-
-        public JsonResult CreateRoom(string roomName)
+        public JsonResult CreateRoom(PlayerRoom room)
         {           
             bool flag = roomList.Add(new PlayerRoom {
-                TotalLimit = 5,
-                Name = roomName,
+                TotalLimit = room.TotalLimit,
+                Name = room.Name,
                 PlayerList = new List<Player>(),
             });
             if (flag)
             {
-                var query = roomList.FindAll(x=>string.Equals(x.Name,roomName));
+                var query = roomList.FindAll(x=>string.Equals(x.Name, room.Name));
                 var queryPlayer = playerList.FindAll(x=>string.Equals(x.ConnectionId,Context.ConnectionId));
                 if (query!=null &&  query.Count>0)
                 {
                     if (queryPlayer != null && queryPlayer.Count>0)
                     {
                         query.FirstOrDefault().PlayerList.Add(queryPlayer.FirstOrDefault());
-                        Groups.Add(Context.ConnectionId, roomName);
+                        Groups.Add(Context.ConnectionId, room.Name);
+                         CurrentRoomList();
                         return new JsonResult { Data = new { result = true, data = JavaScriptObjectParser.Parse(roomList) } };
                     }
                     else
@@ -88,6 +96,12 @@ namespace WebGame.SignalR
             {
                 return new JsonResult { Data = new { result = false } };
             }
+        }
+        public JsonResult CurrentRoomList()
+        {
+            roomList.CleanRoom();
+            Clients.AllExcept(Context.ConnectionId).CurrentRoomList(new JsonResult { Data = new { data = JavaScriptObjectParser.Parse(roomList) } });
+            return new JsonResult { Data=new { data = JavaScriptObjectParser.Parse(roomList)} };
         }
     }
 }

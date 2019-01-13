@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using WebGame.Models;
 
 namespace WebGame.BaseData
@@ -15,5 +16,6 @@ namespace WebGame.BaseData
         /// <returns></returns>
        Task duplicateConnectionId();
         void getOnlinePlayerNumber(int number);
+        Task CurrentRoomList(JsonResult response);
     }
 }

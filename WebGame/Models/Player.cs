@@ -17,6 +17,6 @@ namespace WebGame.Models
         /// </summary>
         public string PlayerName { get; set; }
 
-        //public string IPAddress { get; set; }
+        public string ControllerName { get; set; }
     }
 }

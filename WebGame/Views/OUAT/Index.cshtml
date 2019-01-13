@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Index";
 }
-
 <h2>Welcome To Once Upon A Time , PlayerName : @Html.DisplayTextFor(model => model.PlayerName)</h2>
 <div class="form-group row">
     <label class="control-label col-sm-2">在限總人數</label>
@@ -11,7 +10,7 @@
     </div>
 </div>
 <div class="form-group row">
-    <div class="col-sm-4">
+    <div class="col-sm-6">
         <div id="divOUAT_Menu">
             <div class="form-group row">
                 <button class="btn btn-default" id="btnOUAT_CreateRoom">創建</button>
@@ -21,43 +20,91 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-6">
         <div id="jsgrid_OUAT_Room"></div>
         <div id="jsgrid_OUAT_Room_Pager"></div>
     </div>
 </div>
 
+<div class="modal fade" id="modal_divCreateRoom" role="dialog">
+    <div class="modal-dialog modal-xl" style="width:60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Create New Room</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label class="control-label col-sm-6">房間名稱 :</label>
+                        <input type="text" id="modal_txtRoomName" class="col-sm-6 form-control" />
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="control-label col-sm-6">房間人數 :</label>
+                        <input type="number" min="1" value="1" id="modal_numRoomName" class="form-control col-sm-6"/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="modal_btnConfirm" type="button" class="btn btn-default pull-right">確定</button>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("~/Views/Shared/_PlayerRoomDetail.cshtml",Model)
 @section scripts{
     <script>
         $(document).ready(function () {
             $('#btnOUAT_CreateRoom').on("click", function () {
-                player.server.createRoom("test").done(function (response) {
+                $('#modal_divCreateRoom').modal("show");
+            });
+            $('#modal_btnConfirm').on("click", function () {
+                var data = {};
+                data["Name"] = $('#modal_txtRoomName').val();
+                data["TotalLimit"] = $('#modal_numRoomName').val();
+                player.server.createRoom(data).done(function (response) {
                     if (response.Data.result) {
                         var data = eval(response.Data.data);
                         if (data.length>0) {
-                            $.each(data, function (value, index) {
-                                this.TotalLimit = this.PlayerList + "/" + this.TotalLimit;
-                            });
+                            JsGridRoomList(data);
                         }
                     } else {
                         alert("已有相同房間請重新命名");
                     };
+                    $('#modal_divCreateRoom').modal("hide");
                 });
             });
         });
         var player = $.connection.oUATHub;
+        $.connection.hub.start().done(function () {
+            player.server.connectToHub('@Model.PlayerName').done(function () {
+                player.server.currentRoomList().done(function (response) {
+                    var data = eval(response.Data.data);
+                    JsGridRoomList(data);
+                });
+            });
+        });
+
+
         //防止重複ConnectionId
         player.client.duplicateConnectionId = async function () {
-            alert("重複Id,請再試一次");
             window.location = '@Url.Action("Index","Home")';
+            alert("重複Id,請再試一次");
         }
         player.client.getOnlinePlayerNumber = async function (num)
         {
             $('#onlinePlayerNum').text(num);
         }
-        $.connection.hub.start().done(function () {
-            player.server.connectToHub(@Model.PlayerName);
-        });
+        player.client.currentRoomList = async function (response) {
+            var data = eval(response.Data.data);
+            JsGridRoomList(data);
+        };
+
+        function JsGridRoomList (data) {
+            $.each(data, function (value, index) {
+                this.TotalLimit_Str = this.PlayerList.length + "/" + this.TotalLimit;
+            });
+            $('#jsgrid_OUAT_Room').jsGrid("option", "data", data);
+        }
 
 
         $("#jsgrid_OUAT_Room").jsGrid({
@@ -69,18 +116,22 @@
             pagerContainer: "#jsgrid_OUAT_Room_Pager",
             data: [],
             rowClick: function (item) {
+                $('#modal_lbRoomName').text(item.item.Name);
+                $('#modal_lbTotalLimit').text(item.item.TotalLimit_Str);
+                $('#jsgrid_PlayerList').jsGrid("loadData");
+                $('#modal_divPlayerRoomDetail').modal('show');
             },
             fields: [
                 { name: "Name", title: '房間名稱', type: "text", width: 60, align: "center" },
-                { name: "TotalLimit", title: '房間人數', type: "text", width: 60, align: "right" },
-                //{
-                //    name: "ExaminationId", title: '操作',
-                //    itemTemplate: function (value, item) {
-                //        var $result = $([]);
-                //        return jsGridTemplate.customButton(value, item, ReviewData, '申請').attr('value', value);
-                //    },
-                //    width: 50, align: "center"
-                //},
+                { name: "TotalLimit_Str", title: '房間人數', type: "text", width: 40, align: "right" },
+                {
+                    name: "Name", title: '進入房間',
+                    itemTemplate: function (value, item) {
+                        var $result = $([]);
+                        return jsGridTemplate.customButton(value, item, null, '進入').attr('class','btn btn-success');
+                    },
+                    width: 50, align: "center"
+                },
             ],
             controller: {
                 loadData: function (filter) {

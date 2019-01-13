@@ -21,5 +21,25 @@ namespace WebGame.Models
                 return true;
             }
         }
+        public bool PlayerOnDisconnect(Player player)
+        {
+            Predicate<Player> predicate = i => i.Equals(player);
+            bool isInRoom = false;
+            this.ForEach(x=> {
+                if (x.PlayerList.FindIndex(predicate)!=-1)
+                {
+                    x.PlayerList.Remove(player);
+                    isInRoom = true;
+                }
+            });
+            return isInRoom;
+        }
+        public void CleanRoom()
+        {
+            lock (this)
+            {
+                this.RemoveAll(x =>  x.PlayerList.Count <= 0);
+            }
+        }
     }
 }
