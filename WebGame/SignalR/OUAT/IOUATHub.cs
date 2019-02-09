@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebGame.BaseData;
+using WebGame.Models;
 
 namespace WebGame.SignalR
 {
@@ -13,6 +14,6 @@ namespace WebGame.SignalR
     /// </summary>
     public interface IOUATHub :  IBaseHub 
     {
-      
+
     }
 }

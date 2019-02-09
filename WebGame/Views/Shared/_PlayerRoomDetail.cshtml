@@ -25,16 +25,33 @@
 <script>
     $(function () {
         $('#modal_btnEnterRoom').on("click", function () {
-            $.ajax({
-                type: "GET",
-                url: '@Url.Action("EnterRoom", Model.ControllerName)',
-                data: {
-                    PlayerName: @Model.PlayerName,
-                    ControllerName : @Model.ControllerName,
-                },
-            }).done(function () {
-                $('#modal_divPlayerRoomDetail').modal('hide');
-            });
+            if (player != typeof undefined) {
+                var data = {};
+                data["PlayerName"] = '@Model.PlayerName';
+                data["ControllerName"] = '@Model.ControllerName';
+                data["RoomName"] =  $('#modal_lbRoomName').text();
+
+                player.server.enterRoom(data).done(function (response) {                  
+                    if (response.Data.result) {
+                        $.ajax({
+                            type: "GET",
+                            url: '@Url.Action("EnterRoom", Model.ControllerName)',
+                            data: {
+                                PlayerName: '@Model.PlayerName',
+                                ControllerName: '@Model.ControllerName',
+                                //RoomName: $('#modal_lbRoomName').text(),
+                            },
+                        }).done(function (response) {                         
+                            $('#@Model.ControllerName').html(response);
+                        });
+                    } else {
+                        alert('無法進入遊戲房間');
+                    }
+                    hideModal("#modal_divPlayerRoomDetail");
+                });
+            } else {
+                alert('未與Server連接');
+            }
         });
     });
 

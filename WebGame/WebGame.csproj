@@ -263,6 +263,7 @@
     <Content Include="Scripts\Pages\toggleOther.js" />
     <Content Include="Scripts\Pages\twoSideSelection.js" />
     <Content Include="Scripts\Pages\utils.js" />
+    <Content Include="Scripts\WebJS\OUAT.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -280,6 +281,8 @@
     <Content Include="Views\OUAT\Index.cshtml" />
     <Content Include="Views\Home\GameLobby.cshtml" />
     <Content Include="Views\Shared\_PlayerRoomDetail.cshtml" />
+    <Content Include="Views\OUAT\_OUATGame.cshtml" />
+    <Content Include="Views\OUAT\_OUATLobby.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

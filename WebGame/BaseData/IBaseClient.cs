@@ -16,6 +16,7 @@ namespace WebGame.BaseData
         /// <returns></returns>
        Task duplicateConnectionId();
         void getOnlinePlayerNumber(int number);
+       // void getOnlinePlayerNumberSelf(int number);
         Task CurrentRoomList(JsonResult response);
     }
 }

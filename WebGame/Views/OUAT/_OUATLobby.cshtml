@@ -1,0 +1,193 @@
+﻿@model  WebGame.Models.Player
+<h2>Welcome To Once Upon A Time , PlayerName : @Html.DisplayTextFor(model => model.PlayerName)</h2>
+<div class="form-group row">
+    <label class="control-label col-sm-2">在限總人數</label>
+    <div class="col-sm-4">
+        <p id="onlinePlayerNum"></p>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-sm-6">
+        <div id="divOUAT_Menu">
+            <div class="form-group row">
+                <button class="btn btn-default" id="btnOUAT_CreateRoom">創建</button>
+            </div>
+            <div class="form-group row">
+                <button class="btn btn-default">test</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div id="jsgrid_OUAT_Room"></div>
+        <div id="jsgrid_OUAT_Room_Pager"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_divCreateRoom" role="dialog">
+    <div class="modal-dialog modal-xl" style="width:60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Create New Room</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label class="control-label col-sm-6">房間名稱 :</label>
+                        <input type="text" id="modal_txtRoomName" class="col-sm-6 form-control" />
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="control-label col-sm-6">房間人數 :</label>
+                        <input type="number" min="1" value="1" id="modal_numRoomName" class="form-control col-sm-6" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="modal_btnConfirm" type="button" class="btn btn-default pull-right">確定</button>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("~/Views/Shared/_PlayerRoomDetail.cshtml", Model)
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#btnOUAT_CreateRoom').on("click", function () {
+            $('#modal_divCreateRoom').modal("show");
+        });
+        $('#modal_btnConfirm').on("click", function () {
+            var data = {};
+            data["Name"] = $('#modal_txtRoomName').val();
+            data["TotalLimit"] = $('#modal_numRoomName').val();
+            player.server.createRoom(data).done(function (response) {
+                if (response.Data.result) {
+                    var data = eval(response.Data.data);
+                    if (data.length>0) {
+                        JsGridRoomList(data);
+                    }
+                    $.ajax({
+                        url: '@Url.Action("EnterRoom",Model.ControllerName)',
+                        data:
+                        {
+                            PlayerName: '@Model.PlayerName',
+                            ControllerName: '@Model.ControllerName',
+                        },
+                    }).done(function (response) {
+                        $('#@Model.ControllerName').html(response);
+                    });
+                } else {
+                    alert("已有相同房間請重新命名");
+                };
+                hideModal("#modal_divCreateRoom");
+            });
+        });
+    });
+    @*var player = $.connection.oUATHub;
+    if (!@Json.Encode(Model.IsConnecting)) {
+        $.connection.hub.start().done(function () {
+            var data = {};
+            data["PlayerName"] = '@Model.PlayerName';
+            data["ControllerName"] = '@Model.ControllerName';
+
+            player.server.currentRoomList().done(function (response) {
+                var data = eval(response.Data.data);
+                JsGridRoomList(data);
+            });
+        });
+    }*@
+
+        //防止重複ConnectionId
+    @*player.client.duplicateConnectionId = async function () {
+        window.location = '@Url.Action("Index","Home")';
+        alert("重複Id,請再試一次");
+    }
+    player.client.getOnlinePlayerNumber = async function (num)
+    {
+        $('#onlinePlayerNum').text(num);
+    }
+    player.client.currentRoomList = async function (response) {
+        if (response.Data.data != typeof null) {
+            var data = eval(response.Data.data);
+            JsGridRoomList(data);
+        }
+    };*@
+
+
+    //init
+    //function ReEnterLobby() {
+    //    player.server.getOnlinePlayerNumberSelf().done(function (response) {
+    //        $('#onlinePlayerNum').text(response);
+    //    });
+    //    CurrentRoomList();
+    //}
+
+    //function CurrentRoomList() {
+    //    player.server.currentRoomList().done(function (response) {
+    //        var data = eval(response.Data.data);
+    //        JsGridRoomList(data);
+    //    });
+    //}
+
+    function JsGridRoomList (data) {
+        $.each(data, function (value, index) {
+            this.TotalLimit_Str = this.PlayerList.length + "/" + this.TotalLimit;
+        });
+        $('#jsgrid_OUAT_Room').jsGrid("option", "data", data);
+    }
+
+    $("#jsgrid_OUAT_Room").jsGrid({
+        width: "100%",
+        autoload: false,
+        paging: true,
+        pageSize: 10,
+        pageLoading: true,
+        pagerContainer: "#jsgrid_OUAT_Room_Pager",
+        data: [],
+        rowClick: function (item) {
+            $('#modal_lbRoomName').text(item.item.Name);
+            $('#modal_lbTotalLimit').text(item.item.TotalLimit_Str);
+            $('#jsgrid_PlayerList').jsGrid("loadData");
+            $('#modal_divPlayerRoomDetail').modal('show');
+        },
+        fields: [
+            { name: "Name", title: '房間名稱', type: "text", width: 60, align: "center" },
+            { name: "TotalLimit_Str", title: '房間人數', type: "text", width: 40, align: "right" },
+            {
+                name: "Name", title: '進入房間',
+                itemTemplate: function (value, item) {
+                    var $result = $([]);
+                    return jsGridTemplate.customButton(value, item, null, '進入').attr('class','btn btn-success');
+                },
+                width: 50, align: "center"
+            },
+        ],
+        controller: {
+            loadData: function (filter) {
+                var d = $.Deferred();
+                var rtn = $.ajax({
+                    url: '@Url.Action("QueryForAdjustment", "Quotation")',
+                    data: {
+                        Pager: {
+                            CurrentPageNumber: filter.pageIndex - 1,
+                            PageSize: filter.pageSize,
+                        },
+                        ProjectName: $('#txtProjectName').val(),
+                        ExamineeName: $('#txtExamineeName').val(),
+                        IdNo: $('#txtIdentityCard').val(),
+                        OtherIdType:$('#ddlOtherIdType').val(),
+                        OtherIdNo :$('#txtOtherIdNo').val(),
+                    }
+                }).done(function (response) {
+
+                    var data = eval(response.data);
+                    d.resolve({
+                        data: data,
+                        itemsCount: response.itemsCount,
+                    });
+                    });
+                return d.promise();
+            }
+        }
+    });
+</script>

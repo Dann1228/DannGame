@@ -18,5 +18,12 @@ namespace WebGame.Models
         public string PlayerName { get; set; }
 
         public string ControllerName { get; set; }
+
+        public string RoomName { get; set; }
+
+        /// <summary>
+        /// 是否正在連線
+        /// </summary>
+        public bool IsConnecting { get; set; }
     }
 }

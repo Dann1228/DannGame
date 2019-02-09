@@ -11,16 +11,19 @@ namespace WebGame.Controllers
 {
     public class OUATController : Controller
     {
+        OUATHub OUATHub= new OUATHub();
         List<GameCard> testList = new List<GameCard>()
         {
             new GameCard{Id=1,No="t01", Text="t01T"},
             new GameCard{Id=2,No="t02", Text="t02T"},
             new GameCard{Id=3,No="t03", Text="t03T"},
         };
-        public ActionResult Index(Player model)
+
+
+        public ActionResult Index(Player player)
         {
-            model.ControllerName = ControllerContext.RouteData.Values["controller"].ToString();            
-            return View(model);
+            player.ControllerName = ControllerContext.RouteData.Values["controller"].ToString();            
+            return View(player);
         }
         [HttpPost]
         public JsonResult PlayerListOfRoom(string roomName)
@@ -33,9 +36,19 @@ namespace WebGame.Controllers
             }
             return new JsonResult { Data = new { data = JavaScriptObjectParser.Parse(players) } };
         }
-        public void EnterRoom(Player player)
+        public ActionResult Lobby(Player player)
         {
-
+            var query = OUATHub.playerList.Find(x => string.Equals(x.PlayerName, player.PlayerName));
+            if (query != null)
+            {
+                OUATHub.BackToLobby(query);
+            }
+            return PartialView("_OUATLobby",query);
+        }
+        public ActionResult EnterRoom(Player player)
+        {
+            var query = OUATHub.playerList.Find(x => string.Equals(x.PlayerName, player.PlayerName));
+            return PartialView("_OUATGame",query);
         }
     }
 }

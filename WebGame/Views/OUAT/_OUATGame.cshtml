@@ -1,0 +1,36 @@
+﻿@model  WebGame.Models.Player
+<div>
+    <h3>test</h3>  
+    <button id="btnLeaveRoom" class="btn btn-danger" >離該</button>
+    
+</div>
+
+<script>
+    $('#btnLeaveRoom').on("click", function () {
+        @*window.location = '@Url.Action("Index",Model.ControllerName)';*@
+        var data = {};
+        data["PlayerName"] = '@Model.PlayerName';
+        data["ControllerName"] = '@Model.ControllerName';
+        data["IsConnecting"] = true;
+        $.ajax({
+            url: '@Url.Action("Lobby",Model.ControllerName)',
+            data: data,
+        }).done(function (response) {
+            $('#@Model.ControllerName').html(response);
+        });
+    });
+
+    player.client.currentRoomList = async function (response) {
+        if (response.Data.data != typeof null) {
+            var data = eval(response.Data.data);
+            JsGridRoomList(data);
+        }
+    };
+
+    function JsGridRoomList(data) {
+        $.each(data, function (value, index) {
+            this.TotalLimit_Str = this.PlayerList.length + "/" + this.TotalLimit;
+        });
+        $('#jsgrid_OUAT_Room').jsGrid("option", "data", data);
+    }
+</script>

@@ -10,8 +10,12 @@ namespace WebGame.BaseData
 {
     public interface IBaseHub
     {
-        void ConnectToHub(string playerName);
+        //void GetOnlinePlayerNumber();
+        void ConnectToHub(Player player);
+
+        //JsonResult GetOnlinePlayerNumberSelf();
         JsonResult CreateRoom(PlayerRoom room);
         JsonResult CurrentRoomList();
+        JsonResult EnterRoom(Player player);
     }
 }
