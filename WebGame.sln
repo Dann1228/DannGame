@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGame", "WebGame\WebGame.csproj", "{16738BC9-0C03-41FC-87E0-796F215D7C33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGame.FrontEnd.Test", "WebGame\WebGame.FrontEnd.Test.csproj", "{16738BC9-0C03-41FC-87E0-796F215D7C33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGame.BaseLib", "WebGame.BaseLib\WebGame.BaseLib.csproj", "{20BEE6DF-314A-46A6-8047-A2A1C41873FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGame.BaseLib.Test", "WebGame.BaseLib.Test\WebGame.BaseLib.Test.csproj", "{255F3602-4087-4E09-BF5C-D2B94B3059EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{16738BC9-0C03-41FC-87E0-796F215D7C33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16738BC9-0C03-41FC-87E0-796F215D7C33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16738BC9-0C03-41FC-87E0-796F215D7C33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20BEE6DF-314A-46A6-8047-A2A1C41873FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20BEE6DF-314A-46A6-8047-A2A1C41873FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20BEE6DF-314A-46A6-8047-A2A1C41873FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20BEE6DF-314A-46A6-8047-A2A1C41873FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{255F3602-4087-4E09-BF5C-D2B94B3059EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{255F3602-4087-4E09-BF5C-D2B94B3059EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{255F3602-4087-4E09-BF5C-D2B94B3059EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{255F3602-4087-4E09-BF5C-D2B94B3059EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
